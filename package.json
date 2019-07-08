@@ -1,0 +1,22 @@
+{
+  "name": "ScreenMap",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "main": "ScreenMap.js",
+  "scripts": {
+    "dev:dist": "webpack --mode development",
+	"dev": "npm run dev:dist -- --env.dist=false",
+    "build": "webpack --mode production",
+	"watch": "npm run dev -- --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "lodash": "^4.17.11",
+    "webpack": "^4.19.0",
+    "webpack-cli": "^3.1.0"
+  },
+  "dependencies": {}
+}
