@@ -12,6 +12,8 @@
 				Channels.push(document.getElementById("Back1"));
 				Channels.push(document.getElementById("Front2"));
 				Channels.push(document.getElementById("Back2"));
+				Channels.push(document.getElementById("Front3"));
+				Channels.push(document.getElementById("Back3"));
 
 				this.SCMap = new SCLib.ScreenMap(Channels);
 				this.SCMap.SetGlobalResolution = [300, 150];
@@ -25,12 +27,20 @@
 				let randOriginY1=Math.floor((Math.random() * 150) + 1);
 				let randOriginX2=Math.floor((Math.random() * 300) + 1);
 				let randOriginY2=Math.floor((Math.random() * 150) + 1);
+				let randOriginX3=Math.floor((Math.random() * 300) + 1);
+				let randOriginY3=Math.floor((Math.random() * 150) + 1);
+				let Text1 = "1";
+				let Text2 = "2";
+				let Text3 = "3";
 				this.SCMap.SetGlobalStyle = 'red';
 				this.SCMap.SetGlobalFont = "18px Arial";
-				let Text1 = "Hello";
-				let Text2 = "Goodbye";
 				this.SCMap.WriteText(0, Text1, randOriginX1, randOriginY1, 50, 50, document.getElementById("blank"));
+				this.SCMap.SetGlobalStyle = 'black';
+				this.SCMap.SetGlobalFont = "18px Arial";
 				this.SCMap.WriteText(1, Text2, randOriginX2, randOriginY2, 20, 20, document.getElementById("blank"));
+				this.SCMap.SetGlobalStyle = 'blue';
+				this.SCMap.SetGlobalFont = "18px Arial";
+				this.SCMap.WriteText(2, Text3, randOriginX3, randOriginY3, 20, 20, document.getElementById("blank"));
 			}, 100);
 </script>
 
@@ -50,6 +60,12 @@
 	Your browser does not support the HTML5 canvas tag.
 </canvas>
 <canvas id="Back2"  width="300" height="150" style="border:1px solid #d3d3d3;">
+	Your browser does not support the HTML5 canvas tag.
+</canvas>
+<canvas id="Front3"  width="300" height="150" style="border:1px solid #d3d3d3;">
+	Your browser does not support the HTML5 canvas tag.
+</canvas>
+<canvas id="Back3"  width="300" height="150" style="border:1px solid #d3d3d3;">
 	Your browser does not support the HTML5 canvas tag.
 </canvas>
 <img id="blank" src=""></img>
