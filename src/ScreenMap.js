@@ -27,8 +27,10 @@ import { SMScreen } from './SMScreen';
 */
 export class ScreenMap {
     constructor(CVChannels) {
-        this.GlobalXResolution = 0; //Screen resolution X value in integer format
-        this.GlobalYResolution = 0; //Screen resolution Y value in integer format
+        this.GlobalXResolution = 300; //Screen resolution X value in integer format
+        this.GlobalYResolution = 150; //Screen resolution Y value in integer format
+        this.GlobalStyle = "12px Arial";
+        this.GlobalFont = 'blue';
         this.ZoomLevel = 1; //Current screen magnification level 
         this.WindowHeight = window.innerHeight;
         this.WindowWidth = window.innerWidth;
@@ -50,8 +52,42 @@ export class ScreenMap {
             this.GlobalYResolution = Pair[1];
         }
     }
+    /**
+    * Sets the default global style applied to screen text elements
+    * @param {String} Style A ctx.fillstyle string
+    */
+    set SetGlobalStyle(Style) {
+        if (Style) {
+            this.GlobalStyle = Style;
+        }
+    }
+    /**
+    * Sets the default global font applied to screen text elements
+    * @param {String} Font A ctx.font string
+    */
+    set SetGlobalFont(Font) {
+        if (Font) {
+            this.GlobalFont = Font;
+        }
+    }
     //----------------------------------------------GET METHODS(NONE)-------------------------------------------------
     //----------------------------------------------PUBLIC INTERFACE--------------------------------------------------
+    /**
+       * Function to write text to a screen
+       * @param {Integer} Screen The canvas pair to render to
+       * @param {String} Text The text to display
+       * @param {Integer} x The starting x position in pixels
+       * @param {Integer} y The starting y position in pixels
+       * @param {Integer} Width The maximum width to use
+       * @param {Integer} Height The height of the display text
+       * @param {ImageBitmap} Pic Optional picture representation
+       */
+    WriteText(Screen, Text, xOrigin, yOrigin, Width, Height, Pic) {
+        if (Screen >= 0) {
+            //Origin, Dimensions, Image, Type, Font, FillStyle, Text
+            this.Screens[Screen].Draw(new Array(xOrigin, yOrigin), new Array(Width, Height), Pic, "Text", this.GlobalFont, this.GlobalStyle, Text);
+        }
+    }
     /**
     * Internal function that is run each render cycle
     */
@@ -77,8 +113,8 @@ export class ScreenMap {
     Init() {
         //Create Screen objects for each pair
         let oddeven = 0;
-        let ctxArray = [];
-        let bctxArray = [];
+        let ctxArray = new Array();
+        let bctxArray = new Array();
         //Split up the channels
         for (let i of this.Channels) {
             if (oddeven == 0) {
@@ -91,7 +127,7 @@ export class ScreenMap {
             }
         }
         for (let i in ctxArray) {
-            this.Screens.push(new SMScreen([ctxArray[i], bctxArray[i]], [100, 100], Number(i)));
+            this.Screens.push(new SMScreen([ctxArray[i], bctxArray[i]], new Array(this.GlobalXResolution, this.GlobalYResolution), Number(i)));
         }
     }
 }

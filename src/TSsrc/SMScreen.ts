@@ -36,19 +36,26 @@ export class SMScreen{
     private BackgroundImages: string[];     //The Current array of background Images
     private TextWidth: number;              //The width of the text within the element
     private LineHeight: number;             //The text line height
+    private eooFlag: boolean;
 
-    constructor(readonly Canvas?: NodeListOf<HTMLCanvasElement>[], readonly IniRes?: number[], readonly ID?: number){
+    constructor(readonly Canvas?: HTMLCanvasElement[], readonly IniRes?: number[], readonly ID?: number){
         //Default Constructor
-        this.Res = IniRes || new Array(100, 100);
+        this.Res = IniRes || new Array(1000, 1000);
         this.DOMArray = new Array();
         this.ID = ID || 0;
         this.RenderFlag = true;
         this.RenderRate = 0; //Used internally to calculate refresh
         this.BackgroundImages = new Array(); //The Current array of background Images
+        this.eooFlag=true;
         if(Canvas){
             for(let i of Canvas){
-                this.ctx = i[0].getContext('2d');
-                this.bctx = i[1].getContext('2d');
+                if(this.eooFlag == true){
+                    this.ctx = i.getContext('2d');
+                    this.eooFlag = false;
+                }else{
+                    this.bctx = i.getContext('2d');
+                    this.eooFlag = true;
+                }
             }
         }
     }
@@ -147,14 +154,7 @@ export class SMScreen{
     */
     public Draw(Origin: number[],Dimensions: number[], Image: ImageBitmap, Type: string, Font: string, FillStyle: string, Text: string){
             //this.bctx.drawImage(Sprite, xcord, ycord, width, height);
-            let Item: DOMItem;
-            Item.dimensions=Dimensions;
-            Item.fillstyle=FillStyle;
-            Item.font=Font;
-            Item.image=Image;
-            Item.origin=Origin;
-            Item.type=Type;
-            Item.text=Text;
+            let Item: DOMItem = {dimensions: Dimensions, fillstyle: FillStyle, font: Font, image: Image, origin: Origin, type: Type, text: Text};
             this.DOMArray.push(Item);   
    }
 /**
@@ -170,19 +170,19 @@ public RenderDOM(){
     }
     //Render Sprites Next
     for(let i of this.DOMArray){
-        if(i[3] == "Sprite"){
+        if(i.type == "Sprite"){
             //0=Image 1=Origin 2=Dimensions 3=Type
             this.bctx.drawImage(i.image, i.origin[0], i.origin[1], i.dimensions[0], i.dimensions[1]);
         }
     }
      //Render Text Last
      for(let i of this.DOMArray){
-        if(i[3] == "Text"){
+        if(i.type == "Text"){
             this.bctx.fillStyle = i.fillstyle;
             this.bctx.font = i.font;
             this.ctx.fillStyle = i.fillstyle;
             this.ctx.font = i.font;
-            this.WrapText(this.bctx, i.text, i.origin[0], i.origin[1], this.TextWidth, this.LineHeight);
+            this.WrapText(this.bctx, i.text, i.origin[0], i.origin[1], i.dimensions[0], i.dimensions[1]);
         }
     }
     //Refresh the screen
@@ -235,7 +235,7 @@ public RenderDOM(){
     */
     private Blit = function(){
 	    if(this.bctx && this.ctx){
-		    var offscreen_data = this.bctx.getImageData(0, 0, this.XResolution, this.YResolution);
+		    var offscreen_data = this.bctx.getImageData(0, 0, this.Res[0], this.Res[1]);
 		    this.ctx.putImageData(offscreen_data, 0, 0);
 	    }
     }
@@ -250,7 +250,7 @@ public RenderDOM(){
     * @param {Integer} lineHeight The height of the display text
     */
     private WrapText(context: CanvasRenderingContext2D, text: string, x: number, y: number, maxWidth: number, lineHeight: number){
-	    var words = text.split(' ');
+	    /*var words = text.split(' ');
 	    var line = '';
 	    for(var n = 0; n < words.length; n++) {
 		    var testLine = line + words[n] + ' ';
@@ -265,9 +265,11 @@ public RenderDOM(){
 			    line = testLine;
 		    }
 	    }
-	    context.textAlign = "start";
-	    context.fillText(line, x, y);
+        context.fillText(line, x, y);*/
+        context.textAlign = "start";
+        context.fillText(text, x, y);
     }
+
 }
 //Declaration for the DOMItem type
 export interface DOMItem{

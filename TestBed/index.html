@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="./style.css" />
+<script type="text/javascript" src="./src/ScreenMap.js" charset="utf-8" type="module"></script>
+<script type="text/javascript">
+			let SCLib = window.ScreenMap;
+			let SCMap = new Array();
+			function Init(){
+				let Channels = new Array();
+				Channels.push(document.getElementById("Front1"));
+				Channels.push(document.getElementById("Back1"));
+				Channels.push(document.getElementById("Front2"));
+				Channels.push(document.getElementById("Back2"));
+
+				this.SCMap = new SCLib.ScreenMap(Channels);
+				this.SCMap.SetGlobalResolution = [300, 150];
+			
+			
+			}
+			setInterval(function(){ 
+				this.SCMap.RenderCycle();
+				//Screen: number, Text: string, xOrigin: number, yOrigin: number, Width: number, Height: number, Pic: ImageBitmap
+				let randOriginX1=Math.floor((Math.random() * 300) + 1);
+				let randOriginY1=Math.floor((Math.random() * 150) + 1);
+				let randOriginX2=Math.floor((Math.random() * 300) + 1);
+				let randOriginY2=Math.floor((Math.random() * 150) + 1);
+				this.SCMap.SetGlobalStyle = 'red';
+				this.SCMap.SetGlobalFont = "18px Arial";
+				let Text1 = "Hello";
+				let Text2 = "Goodbye";
+				this.SCMap.WriteText(0, Text1, randOriginX1, randOriginY1, 50, 50, document.getElementById("blank"));
+				this.SCMap.WriteText(1, Text2, randOriginX2, randOriginY2, 20, 20, document.getElementById("blank"));
+			}, 100);
+</script>
+
+
+</head>
+
+
+<body onload="Init()">
+
+<canvas id="Front1" width="300" height="150" style="border:1px solid #d3d3d3;">
+	Your browser does not support the HTML5 canvas tag.
+</canvas>
+<canvas id="Back1"  width="300" height="150" style="border:1px solid #d3d3d3;">
+	Your browser does not support the HTML5 canvas tag.
+</canvas>
+<canvas id="Front2"  width="300" height="150" style="border:1px solid #d3d3d3;">
+	Your browser does not support the HTML5 canvas tag.
+</canvas>
+<canvas id="Back2"  width="300" height="150" style="border:1px solid #d3d3d3;">
+	Your browser does not support the HTML5 canvas tag.
+</canvas>
+<img id="blank" src=""></img>
+</body>
+</html>

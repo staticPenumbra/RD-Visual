@@ -33,21 +33,28 @@ export class SMScreen {
         */
         this.Blit = function () {
             if (this.bctx && this.ctx) {
-                var offscreen_data = this.bctx.getImageData(0, 0, this.XResolution, this.YResolution);
+                var offscreen_data = this.bctx.getImageData(0, 0, this.Res[0], this.Res[1]);
                 this.ctx.putImageData(offscreen_data, 0, 0);
             }
         };
         //Default Constructor
-        this.Res = IniRes || new Array(100, 100);
+        this.Res = IniRes || new Array(1000, 1000);
         this.DOMArray = new Array();
         this.ID = ID || 0;
         this.RenderFlag = true;
         this.RenderRate = 0; //Used internally to calculate refresh
         this.BackgroundImages = new Array(); //The Current array of background Images
+        this.eooFlag = true;
         if (Canvas) {
             for (let i of Canvas) {
-                this.ctx = i[0].getContext('2d');
-                this.bctx = i[1].getContext('2d');
+                if (this.eooFlag == true) {
+                    this.ctx = i.getContext('2d');
+                    this.eooFlag = false;
+                }
+                else {
+                    this.bctx = i.getContext('2d');
+                    this.eooFlag = true;
+                }
             }
         }
     }
@@ -151,14 +158,7 @@ export class SMScreen {
     */
     Draw(Origin, Dimensions, Image, Type, Font, FillStyle, Text) {
         //this.bctx.drawImage(Sprite, xcord, ycord, width, height);
-        let Item;
-        Item.dimensions = Dimensions;
-        Item.fillstyle = FillStyle;
-        Item.font = Font;
-        Item.image = Image;
-        Item.origin = Origin;
-        Item.type = Type;
-        Item.text = Text;
+        let Item = { dimensions: Dimensions, fillstyle: FillStyle, font: Font, image: Image, origin: Origin, type: Type, text: Text };
         this.DOMArray.push(Item);
     }
     /**
@@ -174,19 +174,19 @@ export class SMScreen {
         }
         //Render Sprites Next
         for (let i of this.DOMArray) {
-            if (i[3] == "Sprite") {
+            if (i.type == "Sprite") {
                 //0=Image 1=Origin 2=Dimensions 3=Type
                 this.bctx.drawImage(i.image, i.origin[0], i.origin[1], i.dimensions[0], i.dimensions[1]);
             }
         }
         //Render Text Last
         for (let i of this.DOMArray) {
-            if (i[3] == "Text") {
+            if (i.type == "Text") {
                 this.bctx.fillStyle = i.fillstyle;
                 this.bctx.font = i.font;
                 this.ctx.fillStyle = i.fillstyle;
                 this.ctx.font = i.font;
-                this.WrapText(this.bctx, i.text, i.origin[0], i.origin[1], this.TextWidth, this.LineHeight);
+                this.WrapText(this.bctx, i.text, i.origin[0], i.origin[1], i.dimensions[0], i.dimensions[1]);
             }
         }
         //Refresh the screen
@@ -238,9 +238,9 @@ export class SMScreen {
     * @param {Integer} lineHeight The height of the display text
     */
     WrapText(context, text, x, y, maxWidth, lineHeight) {
-        var words = text.split(' ');
+        /*var words = text.split(' ');
         var line = '';
-        for (var n = 0; n < words.length; n++) {
+        for(var n = 0; n < words.length; n++) {
             var testLine = line + words[n] + ' ';
             var metrics = context.measureText(testLine);
             var testWidth = metrics.width;
@@ -253,7 +253,8 @@ export class SMScreen {
                 line = testLine;
             }
         }
+        context.fillText(line, x, y);*/
         context.textAlign = "start";
-        context.fillText(line, x, y);
+        context.fillText(text, x, y);
     }
 }

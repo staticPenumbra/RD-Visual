@@ -141,21 +141,28 @@ class SMScreen {
         */
         this.Blit = function () {
             if (this.bctx && this.ctx) {
-                var offscreen_data = this.bctx.getImageData(0, 0, this.XResolution, this.YResolution);
+                var offscreen_data = this.bctx.getImageData(0, 0, this.Res[0], this.Res[1]);
                 this.ctx.putImageData(offscreen_data, 0, 0);
             }
         };
         //Default Constructor
-        this.Res = IniRes || new Array(100, 100);
+        this.Res = IniRes || new Array(1000, 1000);
         this.DOMArray = new Array();
         this.ID = ID || 0;
         this.RenderFlag = true;
         this.RenderRate = 0; //Used internally to calculate refresh
         this.BackgroundImages = new Array(); //The Current array of background Images
+        this.eooFlag = true;
         if (Canvas) {
             for (let i of Canvas) {
-                this.ctx = i[0].getContext('2d');
-                this.bctx = i[1].getContext('2d');
+                if (this.eooFlag == true) {
+                    this.ctx = i.getContext('2d');
+                    this.eooFlag = false;
+                }
+                else {
+                    this.bctx = i.getContext('2d');
+                    this.eooFlag = true;
+                }
             }
         }
     }
@@ -259,14 +266,7 @@ class SMScreen {
     */
     Draw(Origin, Dimensions, Image, Type, Font, FillStyle, Text) {
         //this.bctx.drawImage(Sprite, xcord, ycord, width, height);
-        let Item;
-        Item.dimensions = Dimensions;
-        Item.fillstyle = FillStyle;
-        Item.font = Font;
-        Item.image = Image;
-        Item.origin = Origin;
-        Item.type = Type;
-        Item.text = Text;
+        let Item = { dimensions: Dimensions, fillstyle: FillStyle, font: Font, image: Image, origin: Origin, type: Type, text: Text };
         this.DOMArray.push(Item);
     }
     /**
@@ -282,19 +282,19 @@ class SMScreen {
         }
         //Render Sprites Next
         for (let i of this.DOMArray) {
-            if (i[3] == "Sprite") {
+            if (i.type == "Sprite") {
                 //0=Image 1=Origin 2=Dimensions 3=Type
                 this.bctx.drawImage(i.image, i.origin[0], i.origin[1], i.dimensions[0], i.dimensions[1]);
             }
         }
         //Render Text Last
         for (let i of this.DOMArray) {
-            if (i[3] == "Text") {
+            if (i.type == "Text") {
                 this.bctx.fillStyle = i.fillstyle;
                 this.bctx.font = i.font;
                 this.ctx.fillStyle = i.fillstyle;
                 this.ctx.font = i.font;
-                this.WrapText(this.bctx, i.text, i.origin[0], i.origin[1], this.TextWidth, this.LineHeight);
+                this.WrapText(this.bctx, i.text, i.origin[0], i.origin[1], i.dimensions[0], i.dimensions[1]);
             }
         }
         //Refresh the screen
@@ -346,9 +346,9 @@ class SMScreen {
     * @param {Integer} lineHeight The height of the display text
     */
     WrapText(context, text, x, y, maxWidth, lineHeight) {
-        var words = text.split(' ');
+        /*var words = text.split(' ');
         var line = '';
-        for (var n = 0; n < words.length; n++) {
+        for(var n = 0; n < words.length; n++) {
             var testLine = line + words[n] + ' ';
             var metrics = context.measureText(testLine);
             var testWidth = metrics.width;
@@ -361,8 +361,9 @@ class SMScreen {
                 line = testLine;
             }
         }
+        context.fillText(line, x, y);*/
         context.textAlign = "start";
-        context.fillText(line, x, y);
+        context.fillText(text, x, y);
     }
 }
 
@@ -409,8 +410,10 @@ __webpack_require__.r(__webpack_exports__);
 */
 class ScreenMap {
     constructor(CVChannels) {
-        this.GlobalXResolution = 0; //Screen resolution X value in integer format
-        this.GlobalYResolution = 0; //Screen resolution Y value in integer format
+        this.GlobalXResolution = 300; //Screen resolution X value in integer format
+        this.GlobalYResolution = 150; //Screen resolution Y value in integer format
+        this.GlobalStyle = "12px Arial";
+        this.GlobalFont = 'blue';
         this.ZoomLevel = 1; //Current screen magnification level 
         this.WindowHeight = window.innerHeight;
         this.WindowWidth = window.innerWidth;
@@ -432,8 +435,42 @@ class ScreenMap {
             this.GlobalYResolution = Pair[1];
         }
     }
+    /**
+    * Sets the default global style applied to screen text elements
+    * @param {String} Style A ctx.fillstyle string
+    */
+    set SetGlobalStyle(Style) {
+        if (Style) {
+            this.GlobalStyle = Style;
+        }
+    }
+    /**
+    * Sets the default global font applied to screen text elements
+    * @param {String} Font A ctx.font string
+    */
+    set SetGlobalFont(Font) {
+        if (Font) {
+            this.GlobalFont = Font;
+        }
+    }
     //----------------------------------------------GET METHODS(NONE)-------------------------------------------------
     //----------------------------------------------PUBLIC INTERFACE--------------------------------------------------
+    /**
+       * Function to write text to a screen
+       * @param {Integer} Screen The canvas pair to render to
+       * @param {String} Text The text to display
+       * @param {Integer} x The starting x position in pixels
+       * @param {Integer} y The starting y position in pixels
+       * @param {Integer} Width The maximum width to use
+       * @param {Integer} Height The height of the display text
+       * @param {ImageBitmap} Pic Optional picture representation
+       */
+    WriteText(Screen, Text, xOrigin, yOrigin, Width, Height, Pic) {
+        if (Screen >= 0) {
+            //Origin, Dimensions, Image, Type, Font, FillStyle, Text
+            this.Screens[Screen].Draw(new Array(xOrigin, yOrigin), new Array(Width, Height), Pic, "Text", this.GlobalFont, this.GlobalStyle, Text);
+        }
+    }
     /**
     * Internal function that is run each render cycle
     */
@@ -459,8 +496,8 @@ class ScreenMap {
     Init() {
         //Create Screen objects for each pair
         let oddeven = 0;
-        let ctxArray = [];
-        let bctxArray = [];
+        let ctxArray = new Array();
+        let bctxArray = new Array();
         //Split up the channels
         for (let i of this.Channels) {
             if (oddeven == 0) {
@@ -473,7 +510,7 @@ class ScreenMap {
             }
         }
         for (let i in ctxArray) {
-            this.Screens.push(new _SMScreen__WEBPACK_IMPORTED_MODULE_0__["SMScreen"]([ctxArray[i], bctxArray[i]], [100, 100], Number(i)));
+            this.Screens.push(new _SMScreen__WEBPACK_IMPORTED_MODULE_0__["SMScreen"]([ctxArray[i], bctxArray[i]], new Array(this.GlobalXResolution, this.GlobalYResolution), Number(i)));
         }
     }
 }
