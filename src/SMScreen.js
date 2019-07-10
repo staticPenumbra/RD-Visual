@@ -38,9 +38,9 @@ export class SMScreen {
             }
         };
         //Default Constructor
-        this.Res = IniRes || new Array(1000, 1000);
+        this.Res = IniRes;
         this.DOMArray = new Array();
-        this.ID = ID || 0;
+        this.ID = ID;
         this.RenderFlag = true;
         this.RenderRate = 0; //Used internally to calculate refresh
         this.BackgroundImages = new Array(); //The Current array of background Images
@@ -61,14 +61,14 @@ export class SMScreen {
     //-------------------------------------------------------------SET METHODS---------------------------
     /**
     * Set the element screen resolution
-    * @param {Integer} Count Sets the current render count
+    * @param {Integer[]} Resol Sets the screen resolution
     */
-    set RenderSpeed(Count) {
-        if (Count) {
-            this.RenderRate = Count;
+    set Resolut(Resol) {
+        if (Resol && Resol.length > 0) {
+            this.Res = Resol;
         }
         else {
-            console.log("Cannot set the render rate to: " + Count);
+            console.log("Cannot set the resolution: " + Resol);
         }
     }
     /**

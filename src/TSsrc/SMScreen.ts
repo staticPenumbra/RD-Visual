@@ -38,11 +38,11 @@ export class SMScreen{
     private LineHeight: number;             //The text line height
     private eooFlag: boolean;
 
-    constructor(readonly Canvas?: HTMLCanvasElement[], readonly IniRes?: number[], readonly ID?: number){
+    constructor(readonly Canvas: HTMLCanvasElement[], readonly IniRes: number[], readonly ID: number){
         //Default Constructor
-        this.Res = IniRes || new Array(1000, 1000);
+        this.Res = IniRes;
         this.DOMArray = new Array();
-        this.ID = ID || 0;
+        this.ID = ID;
         this.RenderFlag = true;
         this.RenderRate = 0; //Used internally to calculate refresh
         this.BackgroundImages = new Array(); //The Current array of background Images
@@ -62,15 +62,15 @@ export class SMScreen{
     //-------------------------------------------------------------SET METHODS---------------------------
     /**
     * Set the element screen resolution
-    * @param {Integer} Count Sets the current render count
+    * @param {Integer[]} Resol Sets the screen resolution
     */
-    set RenderSpeed(Count: number){
-        if(Count){
-         this.RenderRate = Count;
-        }else{
-         console.log("Cannot set the render rate to: " + Count);
-        }
+    set Resolut(Resol: number[]){
+    if(Resol && Resol.length > 0){
+        this.Res = Resol;
+    }else{
+        console.log("Cannot set the resolution: " + Resol);
     }
+}
     /**
     * Set the text width
     * @param {Integer} Width Sets the text width to apply to created text elements

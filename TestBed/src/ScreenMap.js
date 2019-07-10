@@ -146,9 +146,9 @@ class SMScreen {
             }
         };
         //Default Constructor
-        this.Res = IniRes || new Array(1000, 1000);
+        this.Res = IniRes;
         this.DOMArray = new Array();
-        this.ID = ID || 0;
+        this.ID = ID;
         this.RenderFlag = true;
         this.RenderRate = 0; //Used internally to calculate refresh
         this.BackgroundImages = new Array(); //The Current array of background Images
@@ -169,14 +169,14 @@ class SMScreen {
     //-------------------------------------------------------------SET METHODS---------------------------
     /**
     * Set the element screen resolution
-    * @param {Integer} Count Sets the current render count
+    * @param {Integer[]} Resol Sets the screen resolution
     */
-    set RenderSpeed(Count) {
-        if (Count) {
-            this.RenderRate = Count;
+    set Resolut(Resol) {
+        if (Resol && Resol.length > 0) {
+            this.Res = Resol;
         }
         else {
-            console.log("Cannot set the render rate to: " + Count);
+            console.log("Cannot set the resolution: " + Resol);
         }
     }
     /**
@@ -433,6 +433,9 @@ class ScreenMap {
         if (Pair && Pair.length > 1) {
             this.GlobalXResolution = Pair[0];
             this.GlobalYResolution = Pair[1];
+            for (let i of this.Screens) {
+                i.Resolut = [this.GlobalXResolution, this.GlobalYResolution];
+            }
         }
     }
     /**
@@ -456,19 +459,49 @@ class ScreenMap {
     //----------------------------------------------GET METHODS(NONE)-------------------------------------------------
     //----------------------------------------------PUBLIC INTERFACE--------------------------------------------------
     /**
-       * Function to write text to a screen
-       * @param {Integer} Screen The canvas pair to render to
-       * @param {String} Text The text to display
-       * @param {Integer} x The starting x position in pixels
-       * @param {Integer} y The starting y position in pixels
-       * @param {Integer} Width The maximum width to use
-       * @param {Integer} Height The height of the display text
-       * @param {ImageBitmap} Pic Optional picture representation
-       */
+    * Function to write text to a screen
+    * @param {Integer} Screen The canvas pair to render to
+    * @param {String} Text The text to display
+    * @param {Integer} x The starting x position in pixels
+    * @param {Integer} y The starting y position in pixels
+    * @param {Integer} Width The maximum width to use
+    * @param {Integer} Height The height of the display text
+    * @param {ImageBitmap} Pic Optional picture representation
+    */
     WriteText(Screen, Text, xOrigin, yOrigin, Width, Height, Pic) {
         if (Screen >= 0) {
             //Origin, Dimensions, Image, Type, Font, FillStyle, Text
             this.Screens[Screen].Draw(new Array(xOrigin, yOrigin), new Array(Width, Height), Pic, "Text", this.GlobalFont, this.GlobalStyle, Text);
+        }
+    }
+    /**
+    * Function to write a background layer into the scene
+    * @param {Integer} Screen The canvas pair to render to
+    * @param {Integer} x The starting x position in pixels
+    * @param {Integer} y The starting y position in pixels
+    * @param {Integer} Width The width of the background
+    * @param {Integer} Height The height of the background
+    * @param {ImageBitmap} Pic Optional picture representation
+    */
+    WriteBackground(Screen, xOrigin, yOrigin, Width, Height, Pic) {
+        if (Screen >= 0) {
+            //Origin, Dimensions, Image, Type, Font, FillStyle, Text
+            this.Screens[Screen].Draw(new Array(xOrigin, yOrigin), new Array(Width, Height), Pic, "Background", this.GlobalFont, this.GlobalStyle, "");
+        }
+    }
+    /**
+    * Function to write a background layer into the scene
+    * @param {Integer} Screen The canvas pair to render to
+    * @param {Integer} x The starting x position in pixels
+    * @param {Integer} y The starting y position in pixels
+    * @param {Integer} Width The width of the Image
+    * @param {Integer} Height The height of the Image
+    * @param {ImageBitmap} Pic Optional picture representation
+    */
+    WriteSprite(Screen, xOrigin, yOrigin, Width, Height, Pic) {
+        if (Screen >= 0) {
+            //Origin, Dimensions, Image, Type, Font, FillStyle, Text
+            this.Screens[Screen].Draw(new Array(xOrigin, yOrigin), new Array(Width, Height), Pic, "Sprite", this.GlobalFont, this.GlobalStyle, "");
         }
     }
     /**

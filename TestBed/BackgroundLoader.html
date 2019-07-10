@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="./style.css" />
+<script type="text/javascript" src="./src/ScreenMap.js" charset="utf-8" type="module"></script>
+<script type="text/javascript">
+			let SCLib = window.ScreenMap;
+			let SCMap = new Array();
+			function Init(){
+				let Channels = new Array();
+				Channels.push(document.getElementById("Front1"));
+				Channels.push(document.getElementById("Back1"));
+				Channels.push(document.getElementById("Front2"));
+				Channels.push(document.getElementById("Back2"));
+				Channels.push(document.getElementById("Front3"));
+				Channels.push(document.getElementById("Back3"));
+
+				this.SCMap = new SCLib.ScreenMap(Channels);
+				this.SCMap.SetGlobalResolution = [500, 500];
+			
+			
+			}
+			setInterval(function(){ 
+				this.SCMap.RenderCycle();
+				//Screen: number, xOrigin: number, yOrigin: number, Width: number, Height: number, Pic: ImageBitmap
+				this.SCMap.WriteBackground(0, 0, 0, 500, 500, document.getElementById("1"));
+				this.SCMap.WriteBackground(1, 0, 0, 500, 500, document.getElementById("2"));
+				this.SCMap.WriteBackground(2, 0, 0, 500, 500, document.getElementById("3"));
+				
+				
+			}, 1000);
+</script>
+
+
+</head>
+
+
+<body onload="Init()">
+
+<canvas id="Front1" width="500" height="500" style="border:1px solid #d3d3d3;">
+	Your browser does not support the HTML5 canvas tag.
+</canvas>
+<canvas id="Back1"  width="500" height="500" style="border:1px solid #d3d3d3;">
+	Your browser does not support the HTML5 canvas tag.
+</canvas>
+<canvas id="Front2"  width="500" height="500" style="border:1px solid #d3d3d3;">
+	Your browser does not support the HTML5 canvas tag.
+</canvas>
+<canvas id="Back2"  width="500" height="500" style="border:1px solid #d3d3d3;">
+	Your browser does not support the HTML5 canvas tag.
+</canvas>
+<canvas id="Front3"  width="500" height="500" style="border:1px solid #d3d3d3;">
+	Your browser does not support the HTML5 canvas tag.
+</canvas>
+<canvas id="Back3"  width="500" height="500" style="border:1px solid #d3d3d3;">
+	Your browser does not support the HTML5 canvas tag.
+</canvas>
+<img id="1" class="images" src="./img1.jpg"></img>
+<img id="2" class="images" src="./img2.jpg"></img>
+<img id="3" class="images" src="./img3.jpg"></img>
+<img id="4" class="images" src="./img4.jpg"></img>
+</body>
+</html>
