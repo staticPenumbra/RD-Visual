@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="./style.css" />
+<script type="text/javascript" src="./src/ScreenMap.js" charset="utf-8" type="module"></script>
+<script type="text/javascript">
+			let SCLib = window.ScreenMap;
+			let SCMap = new Array();
+			function Init(){
+				let Channels = new Array();
+				Channels.push(document.getElementById("Front1"));
+				Channels.push(document.getElementById("Back1"));
+
+				this.SCMap = new SCLib.ScreenMap(Channels);
+				this.SCMap.SetGlobalResolution = [500, 500];
+				this.SCMap.WriteBackground(0, 0, 0, 500, 500, document.getElementById("2"));
+				this.SCMap.WriteSprite(0, 0, 0, 500, 500, document.getElementById("1"));
+				this.SCMap.SetGlobalStyle = 'yellow';
+				this.SCMap.SetGlobalFont = "40px Times";
+				this.SCMap.WriteText(0, "Four Colors", 150, 50, 50, 50, document.getElementById("blank"));
+				this.counter = 1;
+			}
+			setInterval(function(){
+				let Text1 = "Gazelle";
+				let randOriginX1=Math.floor((Math.random() * 500) + 1);
+				let randOriginY1=Math.floor((Math.random() * 500) + 1);
+				switch(this.counter){
+					case 1:
+						this.SCMap.SetGlobalStyle = 'purple';
+						this.SCMap.SetGlobalFont = "18px Arial";
+						this.counter = 4;
+					break;
+					case 2:
+						this.SCMap.SetGlobalStyle = 'green';
+						this.SCMap.SetGlobalFont = "20px Times";
+						this.counter = 3;
+					break;
+					case 3:
+						this.SCMap.SetGlobalStyle = 'blue';
+						this.SCMap.SetGlobalFont = "23px Arial";
+						this.counter = 1;
+					break;
+					case 4:
+						this.SCMap.SetGlobalStyle = 'red';
+						this.SCMap.SetGlobalFont = "18px Arial";
+						this.counter = 2;
+					break;
+				}
+				this.SCMap.WriteText(0, Text1, randOriginX1, randOriginY1, 50, 50, document.getElementById("blank"));
+				this.SCMap.RenderCycle();
+			}, 100);
+</script>
+
+
+</head>
+
+
+<body onload="Init()">
+
+<canvas id="Front1" width="500" height="500" style="border:1px solid #d3d3d3;">
+	Your browser does not support the HTML5 canvas tag.
+</canvas>
+<canvas id="Back1"  width="500" height="500" style="border:1px solid #d3d3d3;">
+	Your browser does not support the HTML5 canvas tag.
+</canvas>
+<img id="1" class="images" src="./Gazelle.png"></img>
+<img id="2" class="images" src="./img1.jpg"></img>
+</body>
+</html>
