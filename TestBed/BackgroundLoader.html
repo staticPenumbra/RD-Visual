@@ -17,16 +17,20 @@
 
 				this.SCMap = new SCLib.ScreenMap(Channels);
 				this.SCMap.SetGlobalResolution = [500, 500];
-			
+				this.SCMap.WriteBackground(0, 0, 0, 500, 500, document.getElementById("1"));
+				this.SCMap.WriteBackground(1, 0, 0, 500, 500, document.getElementById("2"));
+				this.SCMap.WriteBackground(2, 0, 0, 500, 500, document.getElementById("3"));
 			
 			}
 			setInterval(function(){ 
 				this.SCMap.RenderCycle();
 				//Screen: number, xOrigin: number, yOrigin: number, Width: number, Height: number, Pic: ImageBitmap
-				this.SCMap.WriteBackground(0, 0, 0, 500, 500, document.getElementById("1"));
-				this.SCMap.WriteBackground(1, 0, 0, 500, 500, document.getElementById("2"));
-				this.SCMap.WriteBackground(2, 0, 0, 500, 500, document.getElementById("3"));
-				
+				let rand0=Math.floor((Math.random() * 2));
+				let rand1=Math.floor((Math.random() * 2));
+				let rand2=Math.floor((Math.random() * 2));
+				this.SCMap.WriteBackground(rand0, 0, 0, 500, 500, document.getElementById("1"));
+				this.SCMap.WriteBackground(rand1, 0, 0, 500, 500, document.getElementById("2"));
+				this.SCMap.WriteBackground(rand2, 0, 0, 500, 500, document.getElementById("3"));
 				
 			}, 1000);
 </script>
