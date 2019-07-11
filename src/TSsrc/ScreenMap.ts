@@ -136,7 +136,16 @@ public WriteText(Screen: number, Text: string, xOrigin: number, yOrigin: number,
 		this.Screens[Screen].Draw(new Array(xOrigin,yOrigin), new Array(Width,Height),Pic,"Sprite",this.GlobalFont,this.GlobalStyle, "");
 	}
 }
-
+/**
+    * Function to write a background layer into the scene
+    * @param {Integer} Screen The screen to clear
+    */
+   public ClearScreen(Screen: number){
+	if(Screen >= 0){
+		//Origin, Dimensions, Image, Type, Font, FillStyle, Text
+		this.Screens[Screen].ClearDOM();
+	}
+}
 
 /**
 * Internal function that is run each render cycle

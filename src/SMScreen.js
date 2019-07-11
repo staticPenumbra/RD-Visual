@@ -192,6 +192,13 @@ export class SMScreen {
         //Refresh the screen
         this.Blit();
     }
+    /**
+    * Function to clear the DOM
+    */
+    ClearDOM() {
+        this.DOMArray = new Array();
+        this.Clear();
+    }
     //-----------------------------------------------------------INTERNAL METHODS----------------------------------   
     /**
     * Function to resize the canvas and zoom elements to fit the window maintains aspect ratio

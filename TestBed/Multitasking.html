@@ -17,6 +17,7 @@
 
 				this.SCMap = new SCLib.ScreenMap(Channels);
 				this.SCMap.SetGlobalResolution = [300, 150];
+				this.counter = 1;
 			
 			
 			}
@@ -41,6 +42,13 @@
 				this.SCMap.SetGlobalStyle = 'blue';
 				this.SCMap.SetGlobalFont = "18px Arial";
 				this.SCMap.WriteText(2, Text3, randOriginX3, randOriginY3, 20, 20, document.getElementById("blank"));
+				this.counter++;
+				if(counter == 100){
+					this.SCMap.ClearScreen(0);
+					this.SCMap.ClearScreen(1);
+					this.SCMap.ClearScreen(2);
+					this.counter = 1;
+				}
 			}, 100);
 </script>
 

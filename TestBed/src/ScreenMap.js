@@ -300,6 +300,13 @@ class SMScreen {
         //Refresh the screen
         this.Blit();
     }
+    /**
+    * Function to clear the DOM
+    */
+    ClearDOM() {
+        this.DOMArray = new Array();
+        this.Clear();
+    }
     //-----------------------------------------------------------INTERNAL METHODS----------------------------------   
     /**
     * Function to resize the canvas and zoom elements to fit the window maintains aspect ratio
@@ -502,6 +509,16 @@ class ScreenMap {
         if (Screen >= 0) {
             //Origin, Dimensions, Image, Type, Font, FillStyle, Text
             this.Screens[Screen].Draw(new Array(xOrigin, yOrigin), new Array(Width, Height), Pic, "Sprite", this.GlobalFont, this.GlobalStyle, "");
+        }
+    }
+    /**
+        * Function to write a background layer into the scene
+        * @param {Integer} Screen The screen to clear
+        */
+    ClearScreen(Screen) {
+        if (Screen >= 0) {
+            //Origin, Dimensions, Image, Type, Font, FillStyle, Text
+            this.Screens[Screen].ClearDOM();
         }
     }
     /**

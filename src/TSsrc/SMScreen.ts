@@ -188,6 +188,13 @@ public RenderDOM(){
     //Refresh the screen
     this.Blit();   
 }
+/**
+* Function to clear the DOM
+*/
+public ClearDOM(){
+    this.DOMArray = new Array();
+    this.Clear();
+}
 //-----------------------------------------------------------INTERNAL METHODS----------------------------------   
    
 

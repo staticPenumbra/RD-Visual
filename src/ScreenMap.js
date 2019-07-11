@@ -122,6 +122,16 @@ export class ScreenMap {
         }
     }
     /**
+        * Function to write a background layer into the scene
+        * @param {Integer} Screen The screen to clear
+        */
+    ClearScreen(Screen) {
+        if (Screen >= 0) {
+            //Origin, Dimensions, Image, Type, Font, FillStyle, Text
+            this.Screens[Screen].ClearDOM();
+        }
+    }
+    /**
     * Internal function that is run each render cycle
     */
     RenderCycle() {
