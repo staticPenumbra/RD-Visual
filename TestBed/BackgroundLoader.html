@@ -2,8 +2,8 @@
 <html>
 <head>
 <link rel="stylesheet" href="./style.css" />
-<script type="text/javascript" src="./src/ScreenMap.js" charset="utf-8" type="module"></script>
-<script type="text/javascript">
+<script type="text/javascript" src="./src/ScreenMap.js" charset="utf-8" type="module" crossorigin="anonymous"></script>
+<script type="text/javascript" crossorigin="anonymous">
 			let SCLib = window.ScreenMap;
 			let SCMap = new Array();
 			function Init(){
@@ -14,12 +14,19 @@
 				Channels.push(document.getElementById("Back2"));
 				Channels.push(document.getElementById("Front3"));
 				Channels.push(document.getElementById("Back3"));
+				//Set Image Security Requirements
+				let img1 = document.getElementById("1");
+				img1.crossOrigin = "Anonymous";
+				let img2 = document.getElementById("2");
+				img1.crossOrigin = "Anonymous";
+				let img3 = document.getElementById("3");
+				img1.crossOrigin = "Anonymous";
 
 				this.SCMap = new SCLib.ScreenMap(Channels);
 				this.SCMap.SetGlobalResolution = [500, 500];
-				this.SCMap.WriteBackground(0, 0, 0, 500, 500, document.getElementById("1"));
-				this.SCMap.WriteBackground(1, 0, 0, 500, 500, document.getElementById("2"));
-				this.SCMap.WriteBackground(2, 0, 0, 500, 500, document.getElementById("3"));
+				this.SCMap.WriteBackground(0, 0, 0, 500, 500, img1);
+				this.SCMap.WriteBackground(1, 0, 0, 500, 500, img2);
+				this.SCMap.WriteBackground(2, 0, 0, 500, 500, img3);
 			
 			}
 			setInterval(function(){ 

@@ -270,24 +270,6 @@ class SMScreen {
         this.DOMArray.push(Item);
     }
     /**
-   * Function to test whether the indicated point intersects with a DOM item and return the matches
-   * @param {number[]} Point The point to test each item against
-   * @returns {String[]} An array of name strings for each item
-   */
-    ReturnIntersect(Point) {
-        let Matches = new Array();
-        for (let i of this.DOMArray) {
-            let cond1 = (i.origin[1] > Point[1]);
-            let cond2 = ((i.origin[1] + i.dimensions[1]) < Point[1]);
-            let cond3 = (i.origin[0] < Point[0]);
-            let cond4 = (i.origin[0] > Point[0]);
-            if (!((cond1) || (cond2) || (cond3) || (cond4))) {
-                //We're not outside the box so we must be inside; add the element
-                Matches.push(i.text);
-            }
-        }
-    }
-    /**
     * Function to render the map to the background canvas and blit
     */
     RenderDOM() {
@@ -322,13 +304,6 @@ class SMScreen {
     * Function to clear the DOM
     */
     ClearDOM() {
-        this.DOMArray = new Array();
-        this.Clear();
-    }
-    /**
-    * Function to clear the DOM by ID
-    */
-    ClearID() {
         this.DOMArray = new Array();
         this.Clear();
     }
@@ -544,18 +519,6 @@ class ScreenMap {
         if (Screen >= 0) {
             //Origin, Dimensions, Image, Type, Font, FillStyle, Text
             this.Screens[Screen].ClearDOM();
-        }
-    }
-    /**
-        * Function to detect which element or elements exist at the coordinates indicated
-        * @param {Integer} Screen The screen to detect on
-        * @returns {String[]} A string array of detected elements
-        */
-    ClickDetect(Screen, Coordinates) {
-        if (Screen >= 0 && Number.length == 2) {
-            let TestScreen = this.Screens[Screen];
-            let Collisions = TestScreen.ReturnIntersect(Coordinates);
-            return (Collisions);
         }
     }
     /**

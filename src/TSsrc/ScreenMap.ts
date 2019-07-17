@@ -146,6 +146,18 @@ public WriteText(Screen: number, Text: string, xOrigin: number, yOrigin: number,
 		this.Screens[Screen].ClearDOM();
 	}
 }
+/**
+    * Function to detect which element or elements exist at the coordinates indicated
+    * @param {Integer} Screen The screen to detect on
+	* @returns {String[]} A string array of detected elements
+    */
+   public ClickDetect(Screen: number, Coordinates: number[]){
+	if(Screen >= 0 && Number.length == 2){
+		let TestScreen = this.Screens[Screen];
+		let Collisions = TestScreen.ReturnIntersect(Coordinates);
+		return(Collisions);
+	}
+}
 
 /**
 * Internal function that is run each render cycle
