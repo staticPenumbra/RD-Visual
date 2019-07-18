@@ -16,30 +16,30 @@
 				this.SCMap.WriteBackground(0, 0, 0, 420, 300, document.getElementById("1"));
 				this.SCMap.WriteSprite(0, 0, 0, 400, 400, document.getElementById("0"));
 				this.SCMap.SetGlobalStyle = 'red';
-				this.SCMap.SetGlobalFont = "20px Arial";
+				this.SCMap.SetGlobalFont = "10px Arial";
 				this.SCMap.WriteText(0, "150/50", 150, 50, 50, 50, document.getElementById("blank"));
 				this.SCMap.WriteText(0, "300/100", 300, 100, 50, 50, document.getElementById("blank"));
 				this.SCMap.WriteText(0, "400/450", 400, 450, 50, 50, document.getElementById("blank"));
 				this.counter = 1;
 			}
 			document.addEventListener("click", event =>{
-				switch(event.target.id){
-					case "Front1":
 						this.SCMap.ClearScreen(0);
+						this.SCMap.SetGlobalStyle = 'red';
+						this.SCMap.SetGlobalFont = "10px Arial";
 						this.SCMap.WriteBackground(0, 0, 0, 420, 300, document.getElementById("1"));
 						this.SCMap.WriteSprite(0, 0, 0, 400, 400, document.getElementById("0"));
 						this.SCMap.WriteText(0, "150/50", 150, 50, 50, 50, document.getElementById("blank"));
 						this.SCMap.WriteText(0, "300/100", 300, 100, 50, 50, document.getElementById("blank"));
 						this.SCMap.WriteText(0, "400/450", 400, 450, 50, 50, document.getElementById("blank"));
+				switch(event.target.id){
+					case "Front1":
+						this.SCMap.SetGlobalStyle = 'white';
+						this.SCMap.SetGlobalFont = "20px Times";
 						this.SCMap.WriteText(0, "Clicked Front: " + event.clientX + ", " + event.clientY, 0, 200, 50, 50, document.getElementById("blank"));
 					break;
 					case "Back1":
-						this.SCMap.ClearScreen(0);
-						this.SCMap.WriteBackground(0, 0, 0, 420, 300, document.getElementById("1"));
-						this.SCMap.WriteSprite(0, 0, 0, 400, 400, document.getElementById("0"));
-						this.SCMap.WriteText(0, "150/50", 150, 50, 50, 50, document.getElementById("blank"));
-						this.SCMap.WriteText(0, "300/100", 300, 100, 50, 50, document.getElementById("blank"));
-						this.SCMap.WriteText(0, "400/450", 400, 450, 50, 50, document.getElementById("blank"));
+						this.SCMap.SetGlobalStyle = 'white';
+						this.SCMap.SetGlobalFont = "20px Times";
 						this.SCMap.WriteText(0, "Clicked Back: " + event.clientX + ", " + event.clientY, 0, 250, 50, 50, document.getElementById("blank"));
 					break;
 
