@@ -134,13 +134,21 @@ export class ScreenMap {
     /**
         * Function to detect which element or elements exist at the coordinates indicated
         * @param {Integer} Screen The screen to detect on
+        * @param {Integer[]} Coordinates The point to test each item against
+        * @param {Integer} Radius (optional)The Pixel radius centered at Point
         * @returns {String[]} A string array of detected elements
         */
-    ClickDetect(Screen, Coordinates) {
-        if (Screen >= 0 && Number.length == 2) {
+    ClickDetect(Screen, Coordinates, Radius) {
+        if (Screen >= 0 && Coordinates.length == 2) {
             let TestScreen = this.Screens[Screen];
-            let Collisions = TestScreen.ReturnIntersect(Coordinates);
-            return (Collisions);
+            if (Radius == undefined) {
+                let Collisions = TestScreen.ReturnIntersect(Coordinates);
+                return (Collisions);
+            }
+            else {
+                let Collisions = TestScreen.ReturnIntersect(Coordinates, Radius);
+                return (Collisions);
+            }
         }
     }
     /**

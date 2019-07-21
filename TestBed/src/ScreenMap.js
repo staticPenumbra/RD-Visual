@@ -271,21 +271,28 @@ class SMScreen {
     }
     /**
    * Function to test whether the indicated point intersects with a DOM item and return the matches
-   * @param {number[]} Point The point to test each item against
+   * @param {Integer[]} Point The point to test each item against
+   * @param {Integer} Radius (optional)The Pixel radius centered at Point
    * @returns {String[]} An array of name strings for each item
    */
-    ReturnIntersect(Point) {
+    ReturnIntersect(Point, Radius) {
         let Matches = new Array();
+        if (Radius) {
+            let PRad = Radius;
+        }
+        else {
+            let PRad = 0;
+        }
         for (let i of this.DOMArray) {
-            let cond1 = (i.origin[1] > Point[1]);
-            let cond2 = ((i.origin[1] + i.dimensions[1]) < Point[1]);
-            let cond3 = (i.origin[0] < Point[0]);
-            let cond4 = (i.origin[0] > Point[0]);
-            if (!((cond1) || (cond2) || (cond3) || (cond4))) {
-                //We're not outside the box so we must be inside; add the element
+            let cond1 = (Point[0] > i.origin[0] + i.dimensions[0]);
+            let cond2 = (Point[0] + Radius < i.dimensions[0]);
+            let cond3 = (Point[1] > i.origin[1] + i.dimensions[1]);
+            let cond4 = (Point[1] + Radius < i.origin[1]);
+            if (!(cond1 || cond2 || cond3 || cond4)) {
                 Matches.push(i.text);
             }
         }
+        return (Matches);
     }
     /**
     * Function to render the map to the background canvas and blit
@@ -549,13 +556,21 @@ class ScreenMap {
     /**
         * Function to detect which element or elements exist at the coordinates indicated
         * @param {Integer} Screen The screen to detect on
+        * @param {Integer[]} Coordinates The point to test each item against
+        * @param {Integer} Radius (optional)The Pixel radius centered at Point
         * @returns {String[]} A string array of detected elements
         */
-    ClickDetect(Screen, Coordinates) {
-        if (Screen >= 0 && Number.length == 2) {
+    ClickDetect(Screen, Coordinates, Radius) {
+        if (Screen >= 0 && Coordinates.length == 2) {
             let TestScreen = this.Screens[Screen];
-            let Collisions = TestScreen.ReturnIntersect(Coordinates);
-            return (Collisions);
+            if (Radius == undefined) {
+                let Collisions = TestScreen.ReturnIntersect(Coordinates);
+                return (Collisions);
+            }
+            else {
+                let Collisions = TestScreen.ReturnIntersect(Coordinates, Radius);
+                return (Collisions);
+            }
         }
     }
     /**

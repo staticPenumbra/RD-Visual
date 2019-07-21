@@ -149,13 +149,20 @@ public WriteText(Screen: number, Text: string, xOrigin: number, yOrigin: number,
 /**
     * Function to detect which element or elements exist at the coordinates indicated
     * @param {Integer} Screen The screen to detect on
+	* @param {Integer[]} Coordinates The point to test each item against
+	* @param {Integer} Radius (optional)The Pixel radius centered at Point
 	* @returns {String[]} A string array of detected elements
     */
-   public ClickDetect(Screen: number, Coordinates: number[]){
-	if(Screen >= 0 && Number.length == 2){
+   public ClickDetect(Screen: number, Coordinates: number[], Radius?: number){
+	if(Screen >= 0 && Coordinates.length == 2){
 		let TestScreen = this.Screens[Screen];
-		let Collisions = TestScreen.ReturnIntersect(Coordinates);
-		return(Collisions);
+		if(Radius == undefined){
+			let Collisions = TestScreen.ReturnIntersect(Coordinates);
+			return(Collisions);
+		}else{
+			let Collisions = TestScreen.ReturnIntersect(Coordinates, Radius);
+			return(Collisions);
+		}
 	}
 }
 

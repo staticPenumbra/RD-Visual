@@ -24,8 +24,9 @@
 			}
 			document.addEventListener("click", event =>{
 						this.SCMap.ClearScreen(0);
+						let CollisionRad = 10; //Collison Radius for the purpose of testing
 						this.SCMap.SetGlobalStyle = 'red';
-						this.SCMap.SetGlobalFont = "10px Arial";
+						this.SCMap.SetGlobalFont = "20px Arial";
 						this.SCMap.WriteBackground(0, 0, 0, 420, 300, document.getElementById("1"));
 						this.SCMap.WriteSprite(0, 0, 0, 400, 400, document.getElementById("0"));
 						this.SCMap.WriteText(0, "150/50", 150, 50, 50, 50, document.getElementById("blank"));
@@ -36,13 +37,14 @@
 						this.SCMap.SetGlobalStyle = 'white';
 						this.SCMap.SetGlobalFont = "20px Times";
 						this.SCMap.WriteText(0, "Clicked Front: " + event.clientX + ", " + event.clientY, 0, 200, 50, 50, document.getElementById("blank"));
+						let CDawg = this.SCMap.ClickDetect(0, new Array(event.clientX, event.clientY), CollisionRad);
+						this.SCMap.WriteText(0, CDawg, 0, 300, 50, 50, document.getElementById("blank"));
 					break;
 					case "Back1":
 						this.SCMap.SetGlobalStyle = 'white';
 						this.SCMap.SetGlobalFont = "20px Times";
 						this.SCMap.WriteText(0, "Clicked Back: " + event.clientX + ", " + event.clientY, 0, 250, 50, 50, document.getElementById("blank"));
 					break;
-
 				}
 			}); 
 			setInterval(function(){
