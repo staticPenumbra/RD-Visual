@@ -176,10 +176,10 @@ export class SMScreen {
             let PRad = 0;
         }
         for (let i of this.DOMArray) {
-            let cond1 = (Point[0] > i.origin[0] + i.dimensions[0]);
-            let cond2 = (Point[0] + Radius < i.dimensions[0]);
-            let cond3 = (Point[1] > i.origin[1] + i.dimensions[1]);
-            let cond4 = (Point[1] + Radius < i.origin[1]);
+            let cond1 = (Point[0] >= i.origin[0] + i.dimensions[0]);
+            let cond2 = (Point[0] + Radius <= i.origin[0]);
+            let cond3 = (Point[1] >= i.origin[1] + i.dimensions[1]);
+            let cond4 = (Point[1] + Radius <= i.origin[1]);
             if (!(cond1 || cond2 || cond3 || cond4)) {
                 Matches.push(i.text);
             }

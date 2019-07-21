@@ -16,7 +16,7 @@
 				this.SCMap.WriteBackground(0, 0, 0, 420, 300, document.getElementById("1"));
 				this.SCMap.WriteSprite(0, 0, 0, 400, 400, document.getElementById("0"));
 				this.SCMap.SetGlobalStyle = 'red';
-				this.SCMap.SetGlobalFont = "10px Arial";
+				this.SCMap.SetGlobalFont = "20px Arial";
 				this.SCMap.WriteText(0, "150/50", 150, 50, 50, 50, document.getElementById("blank"));
 				this.SCMap.WriteText(0, "300/100", 300, 100, 50, 50, document.getElementById("blank"));
 				this.SCMap.WriteText(0, "400/450", 400, 450, 50, 50, document.getElementById("blank"));
@@ -24,7 +24,7 @@
 			}
 			document.addEventListener("click", event =>{
 						this.SCMap.ClearScreen(0);
-						let CollisionRad = 10; //Collison Radius for the purpose of testing
+						let CollisionRad = 0; //Collison Radius for the purpose of testing
 						this.SCMap.SetGlobalStyle = 'red';
 						this.SCMap.SetGlobalFont = "20px Arial";
 						this.SCMap.WriteBackground(0, 0, 0, 420, 300, document.getElementById("1"));
