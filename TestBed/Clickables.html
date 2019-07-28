@@ -17,33 +17,42 @@
 				this.SCMap.WriteSprite(0, 0, 0, 400, 400, document.getElementById("0"));
 				this.SCMap.SetGlobalStyle = 'red';
 				this.SCMap.SetGlobalFont = "20px Arial";
-				this.SCMap.WriteText(0, "150/50", 150, 50, 50, 50, document.getElementById("blank"));
-				this.SCMap.WriteText(0, "300/100", 300, 100, 50, 50, document.getElementById("blank"));
-				this.SCMap.WriteText(0, "400/450", 400, 450, 50, 50, document.getElementById("blank"));
+				this.SCMap.WriteText(0, "150/50", 150, 50, 60, 50, document.getElementById("blank"));
+				this.SCMap.WriteText(0, "300/100", 300, 100, 60, 50, document.getElementById("blank"));
+				this.SCMap.WriteText(0, "400/450", 400, 450, 60, 50, document.getElementById("blank"));
 				this.counter = 1;
 			}
 			document.addEventListener("click", event =>{
 						this.SCMap.ClearScreen(0);
+						let Rect = 0;
+						let xCalc = 0;
+						let yCalc = 0;
 						let CollisionRad = 0; //Collison Radius for the purpose of testing
 						this.SCMap.SetGlobalStyle = 'red';
 						this.SCMap.SetGlobalFont = "20px Arial";
 						this.SCMap.WriteBackground(0, 0, 0, 420, 300, document.getElementById("1"));
 						this.SCMap.WriteSprite(0, 0, 0, 400, 400, document.getElementById("0"));
-						this.SCMap.WriteText(0, "150/50", 150, 50, 50, 50, document.getElementById("blank"));
-						this.SCMap.WriteText(0, "300/100", 300, 100, 50, 50, document.getElementById("blank"));
-						this.SCMap.WriteText(0, "400/450", 400, 450, 50, 50, document.getElementById("blank"));
+						this.SCMap.WriteText(0, "150/50", 150, 50, 60, 50, document.getElementById("blank"));
+						this.SCMap.WriteText(0, "300/100", 300, 100, 60, 50, document.getElementById("blank"));
+						this.SCMap.WriteText(0, "400/450", 400, 450, 60, 50, document.getElementById("blank"));
 				switch(event.target.id){
 					case "Front1":
+						Rect = document.getElementById("Front1").getBoundingClientRect();
+						xCalc = event.clientX - Rect.left;
+						yCalc = event.clientY - Rect.top;
 						this.SCMap.SetGlobalStyle = 'white';
 						this.SCMap.SetGlobalFont = "20px Times";
-						this.SCMap.WriteText(0, "Clicked Front: " + event.clientX + ", " + event.clientY, 0, 200, 50, 50, document.getElementById("blank"));
+						this.SCMap.WriteText(0, "Clicked Front: " + xCalc + ", " + yCalc, 0, 200, 50, 50, document.getElementById("blank"));
 						let CDawg = this.SCMap.ClickDetect(0, new Array(event.clientX, event.clientY), CollisionRad);
 						this.SCMap.WriteText(0, CDawg, 0, 300, 50, 50, document.getElementById("blank"));
 					break;
 					case "Back1":
+						Rect = document.getElementById("Back1").getBoundingClientRect();
+						xCalc = event.clientX - Rect.left;
+						yCalc = event.clientY - Rect.top;
 						this.SCMap.SetGlobalStyle = 'white';
 						this.SCMap.SetGlobalFont = "20px Times";
-						this.SCMap.WriteText(0, "Clicked Back: " + event.clientX + ", " + event.clientY, 0, 250, 50, 50, document.getElementById("blank"));
+						this.SCMap.WriteText(0, "Clicked Back: " + xCalc + ", " + yCalc, 0, 250, 50, 50, document.getElementById("blank"));
 					break;
 				}
 			}); 
